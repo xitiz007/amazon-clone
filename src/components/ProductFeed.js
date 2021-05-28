@@ -8,6 +8,7 @@ function ProductFeed({ products }) {
         return (
           <Product
             key={id}
+            id={id}
             title={title}
             price={price}
             description={description}
@@ -29,6 +30,7 @@ function ProductFeed({ products }) {
           return (
             <Product
               key={id}
+              id={id}
               title={title}
               price={price}
               description={description}
