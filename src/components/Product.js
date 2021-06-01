@@ -4,10 +4,12 @@ import { StarIcon } from "@heroicons/react/solid";
 import Currency from "react-currency-formatter";
 import { useDispatch } from "react-redux";
 import { addToBasket } from "../slices/basketSlice";
+import { useRouter } from 'next/router';
 const MAX_RATING = 5;
 const MIN_RATING = 1;
 
 function Product({id, title, price, description, category, image }) {
+  const router = useRouter();
   const [rating] = useState(
     Math.floor(Math.random() * (MAX_RATING - MIN_RATING + 1)) + MIN_RATING
   );
@@ -22,12 +24,24 @@ function Product({id, title, price, description, category, image }) {
 
 
   return (
-    <div className="relative flex flex-col m-5 bg-white z-30 p-10">
+    <div className="relative flex flex-col m-5 bg-white z-30 p-10 transform transition duration-500 hover:scale-110">
       <p className="absolute top-2 right-2 text-xs italic text-gray-400">
         {category}
       </p>
-      <Image src={image} height={200} width={200} objectFit="contain" />
-      <h4 className="my-3">{title}</h4>
+      <Image
+        onClick={() => router.push(`/product/${id}`)}
+        src={image}
+        height={200}
+        width={200}
+        objectFit="contain"
+        className="cursor-pointer"
+      />
+      <h4
+        onClick={() => router.push(`/product/${id}`)}
+        className="my-3 hover:underline cursor-pointer"
+      >
+        {title}
+      </h4>
       <div className="flex">
         {Array(rating)
           .fill()

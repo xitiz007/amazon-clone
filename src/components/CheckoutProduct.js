@@ -2,7 +2,11 @@ import Image from "next/image";
 import { StarIcon } from "@heroicons/react/solid";
 import Currency from "react-currency-formatter";
 import { useDispatch } from "react-redux";
-import { addToBasket, removeFromBasket } from "../slices/basketSlice";
+import {
+  addToBasket,
+  removeFromBasket,
+  decrementFromBasket,
+} from "../slices/basketSlice";
 
 function CheckoutProduct({
   id,
@@ -13,10 +17,15 @@ function CheckoutProduct({
   category,
   image,
   rating,
+  quantity
 }) {
   const dispatch = useDispatch();
 
-  const addToBasketHandler = () => {
+  const removeFromBasketHandler = () => {
+    dispatch(removeFromBasket(id));
+  };
+
+  const incrementCount = () => {
     const product = {
       id,
       hasPrime,
@@ -28,11 +37,11 @@ function CheckoutProduct({
       rating,
     };
     dispatch(addToBasket(product));
-  };
+  }
 
-  const removeFromBasketHandler = () => {
-    dispatch(removeFromBasket(id));
-  };
+  const decrementCount = () => {
+    dispatch(decrementFromBasket(id));
+  }
 
   return (
     <div className="grid grid-cols-5">
@@ -61,9 +70,18 @@ function CheckoutProduct({
         )}
       </div>
       <div className="flex flex-col space-y-2 my-auto justify-self-end">
-        <button className="button" onClick={addToBasketHandler}>
+        {/* <button className="button" onClick={addToBasketHandler}>
           Add to Basket
-        </button>
+        </button> */}
+        <div className="flex items-center mx-auto space-x-5 my-2">
+          <button className="incdec" onClick={decrementCount}>
+            -
+          </button>
+          <span className="text-xs md:text-sm">{quantity}</span>
+          <button className="incdec" onClick={incrementCount}>
+            +
+          </button>
+        </div>
         <button className="button" onClick={removeFromBasketHandler}>
           Remove from Basket
         </button>

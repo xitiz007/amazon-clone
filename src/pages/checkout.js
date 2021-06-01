@@ -1,12 +1,13 @@
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import Image from "next/image";
-import {useSelector} from 'react-redux';
+import { useSelector } from "react-redux";
 import { selectItems, selectTotalPrice } from "../slices/basketSlice";
-import CheckoutProduct from '../components/CheckoutProduct';
-import Currency from 'react-currency-formatter';
-import {useSession} from 'next-auth/client'
-import { loadStripe } from '@stripe/stripe-js';
-import axios from 'axios';
+import CheckoutProduct from "../components/CheckoutProduct";
+import Currency from "react-currency-formatter";
+import { useSession } from "next-auth/client";
+import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
 
 const stripePromise = loadStripe(process.env.stripe_public_key);
 
@@ -14,25 +15,25 @@ function Checkout() {
   const items = useSelector(selectItems);
   const totalPrice = useSelector(selectTotalPrice);
   const [session] = useSession();
-  const createCheckoutSession = async() => {
+  const createCheckoutSession = async () => {
     const stripe = await stripePromise;
-    const checkoutSesion = await axios.post('/api/create-checkout-session',{
+    const checkoutSesion = await axios.post("/api/create-checkout-session", {
       items,
-      email: session.user.email
-    })
+      email: session.user.email,
+    });
 
     const result = await stripe.redirectToCheckout({
-      sessionId: checkoutSesion.data.id
-    })
+      sessionId: checkoutSesion.data.id,
+    });
 
-    if(result.error)
-    {
-      alert(result.error.message);yarn
+    if (result.error) {
+      alert(result.error.message);
     }
-  }
+  };
 
   return (
-    <div className="bg-gray-100">
+    <>
+    <div className="bg-gray-100 min-h-screen">
       <Header />
       <main className="lg:flex max-w-screen-2xl mx-auto">
         {/* left */}
@@ -61,6 +62,7 @@ function Checkout() {
                 image={item.image}
                 rating={item.rating}
                 hasPrime={item.hasPrime}
+                quantity={item.quantity}
               />
             ))}
           </div>
@@ -92,6 +94,8 @@ function Checkout() {
         </div>
       </main>
     </div>
+    <Footer />
+  </>
   );
 }
 

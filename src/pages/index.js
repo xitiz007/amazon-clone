@@ -3,13 +3,11 @@ import Banner from '../components/Banner';
 import ProductFeed from '../components/ProductFeed';
 import Head from "next/head";
 import { getSession } from 'next-auth/client';
+import Footer from '../components/Footer';
 
 export default function Home({products}) {
   return (
-    <div className="bg-gray-100">
-      <Head>
-        <title>Amazon 2.0</title>
-      </Head>
+    <div className="bg-gray-100 relative">
       <Header />
       <main className="max-w-screen-2xl mx-auto">
         {/* banner */}
@@ -17,6 +15,7 @@ export default function Home({products}) {
         {/* products */}
         <ProductFeed products={products} />
       </main>
+      <Footer />
     </div>
   );
 }

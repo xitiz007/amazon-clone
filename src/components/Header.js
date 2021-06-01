@@ -4,6 +4,7 @@ import {useSession, signIn, signOut} from 'next-auth/client';
 import { useRouter } from 'next/router';
 import {useSelector} from 'react-redux';
 import { selectItems } from "../slices/basketSlice";
+import Head from 'next/head';
 
 function Header() {
   const items = useSelector(selectItems);
@@ -12,6 +13,10 @@ function Header() {
 
     return (
       <header>
+        <Head>
+          <title>Amazon clone</title>
+          <link rel="shortcut icon" href="https://links.papareact.com/f90" />
+        </Head>
         {/* top nav */}
         <div className="flex items-center bg-amazon_blue p-1 py-2 flex-grow">
           <div className="mt-2 flex items-center flex-grow sm:flex-grow-0">
@@ -40,7 +45,7 @@ function Header() {
               <p>{session ? `Hello, ${session.user.name}` : "Sign In"}</p>
               <p className="font-extrabold md:text-sm">Account & Lists</p>
             </div>
-            <div className="link" onClick={() => router.push('/orders')}>
+            <div className="link" onClick={() => router.push("/orders")}>
               <p>Returns</p>
               <p className="font-extrabold md:text-sm">& Orders</p>
             </div>

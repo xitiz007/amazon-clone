@@ -11,6 +11,8 @@ module.exports = {
         amazon_blue: {
           light: "#232F3E",
           DEFAULT: "#131921",
+          Orange: "#FF9900",
+          Navbar: "#131A22",
         },
       },
     },
@@ -18,5 +20,16 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [require("@tailwindcss/line-clamp")],
+  plugins: [
+    require("@tailwindcss/line-clamp"),
+    function ({ addUtilities }) {
+      const extendUnderline = {
+        ".underline": {
+          textDecoration: "underline",
+          "text-decoration-color": "#0B0080",
+        },
+      };
+      addUtilities(extendUnderline);
+    },
+  ],
 };
